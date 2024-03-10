@@ -17,11 +17,9 @@ class Article:
         return self._title
     @title.setter
     def title(self, title):
-    # Setter method for the title attribute
-    # This setter correctly updates the _title attribute
-    # It raises an AttributeError if an attempt is made to set the title
-     self._title = title
-     raise AttributeError("Title is immutable")
+        return self.title 
+ # Title is immutable raising an AttributeError exception if tried to change it.
+        raise AttributeError("Title is immutable")
    
 
 class Author:
@@ -35,12 +33,10 @@ class Author:
         return self._name
     
     @name.setter
-    def name(self, new_name):
-    # Setter method for the name attribute
-    # This setter correctly updates the _name attribute
-      self._name = new_name
-      return self._name
-
+    def name(self, new_names):
+        self.new_names = new_names
+        return self._name
+    
     def articles(self):
         # Method to retrieve all articles written by this author
         return [articles for articles in Article.all if articles.author == self]
