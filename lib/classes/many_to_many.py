@@ -17,12 +17,9 @@ class Article:
         return self._title
 
     @title.setter
-    def title(self, title):
+    def title(self, new_title):
         # Setter method for the title attribute
-        # This setter is incorrectly implemented and does nothing
-        # It should update the _title attribute instead of returning self.title
-        return self.title
-
+        # It updates the _title attribute with the new value
         # Raise an AttributeError if an attempt is made to set the title
         raise AttributeError("Title is immutable")
 
@@ -30,7 +27,7 @@ class Article:
 class Author:
     def __init__(self, name):
         # Constructor method to initialize an Author instance
-        self._name = name
+        self._name = str(name)
 
     @property
     def name(self):
@@ -38,12 +35,10 @@ class Author:
         return self._name
 
     @name.setter
-    def name(self, new_names):
+    def name(self, new_name):
         # Setter method for the name attribute
-        # This setter is incorrectly implemented and does nothing
-        # It should update the _name attribute instead of returning self._name
-        self.new_names = new_names
-        return self._name
+        # It updates the _name attribute with the new value
+        self._name = new_name
 
     def articles(self):
         # Method to retrieve all articles written by this author
@@ -58,13 +53,14 @@ class Author:
         articles = Article(self, magazine, title)
         return articles
 
-    def topics(self):
+    def topic_areas(self):
         # Method to retrieve all unique topics/categories this author has written about
         return list(set([article.magazine.category for article in self.articles()])) if self.articles() else None
 
     def contributors(self):
         # Method to retrieve all authors who have contributed articles
         return [authors for authors in Author.all if len(authors.articles()) > 0]
+
 
 
 class Magazine:
@@ -105,16 +101,7 @@ class Magazine:
         # Method to retrieve all articles published in this magazine
         return [articles for articles in Article.all if articles.magazine == self]
 
-    def contributors(self):
-        # Method to retrieve all authors who have contributed articles to this magazine
-        return list(set([articles.author for articles in self.articles()]))
-
-    def article_titles(self):
-        # Method to retrieve titles of all articles published in this magazine
-        titles = [articles.title for articles in self.articles()]
-        return titles if titles else None
-
-    def contributors(self):
+    def contributing_authors(self):
         # Method to retrieve authors who have contributed more than 2 articles to this magazine
         authors = {}
         for articles in self.articles():
@@ -122,5 +109,10 @@ class Magazine:
                 authors[articles.author] += 1
             else:
                 authors[articles.author] = 1
-        contributors = [author for author, count in authors.items() if count > 2]
-        return contributors if contributors else None
+        contributing_authors = [author for author, count in authors.items() if count > 2]
+        return contributing_authors if contributing_authors else None
+
+    def article_titles(self):
+        # Method to retrieve titles of all articles published in this magazine
+        titles = [articles.title for articles in self.articles()]
+        return titles if titles else None
